@@ -74,6 +74,8 @@ export default function LiveFeedPage() {
         setCurrentPath(path);
         try {
             const pc = new RTCPeerConnection();
+            pc.addTransceiver("video", { direction: "recvonly" });
+            pc.addTransceiver("audio", { direction: "recvonly" });
             pc.ontrack = (event) => {
                 if (videoRef.current) {
                     videoRef.current.srcObject = event.streams[0];
@@ -81,10 +83,10 @@ export default function LiveFeedPage() {
                     drawToCanvas();
                 }
             };
-
+            pc.createDataChannel("chat");
             const offer = await pc.createOffer();
             await pc.setLocalDescription(offer);
-
+           
             const res = await fetch(webrtcUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/sdp" },
