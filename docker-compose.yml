@@ -6,13 +6,11 @@ services:
       - "8888:8888" # HLS (optional, for external access)
       - "8889:8889" # WebRTC (optional)
       - "8554:8554" # RTSP (optional)
-      # - "9997:9997" # REST API (optional)
+      - "9997:9997" # REST API (optional)
     volumes:
       - ./mediamtx.yml:/mediamtx.yml:ro
     restart: always
     command: ["/mediamtx.yml"]
-    networks:
-      - mediamtx_net
 
   nextjs:
     build: .
@@ -29,9 +27,3 @@ services:
     depends_on:
       - mediamtx
     restart: always
-    networks:
-      - mediamtx_net
-
-networks:
-  mediamtx_net:
-    driver: bridge

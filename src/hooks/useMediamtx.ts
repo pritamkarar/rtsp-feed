@@ -1,6 +1,5 @@
 import {
   AxiosServerError,
-  ServerError,
   StartStreamResponse,
   StreamListResponse,
 } from "@/lib/utils";
