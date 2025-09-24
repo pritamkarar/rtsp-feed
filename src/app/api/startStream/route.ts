@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     const response: StartStreamResponse = {
       path,
       hlsUrl: `${HLS_BASE}/${path}/index.m3u8`,
-      webrtcUrl: `${WEBRTC_BASE}/webrtc/${path}`,
+      webrtcUrl: `${WEBRTC_BASE}/${path}/whep`,
     };
 
     return NextResponse.json(response);

@@ -1,4 +1,5 @@
 import {
+  AxiosServerError,
   ServerError,
   StartStreamResponse,
   StreamListResponse,
@@ -17,11 +18,13 @@ export function usePaths() {
 export function useStartStream() {
   const qc = useQueryClient();
 
-  return useMutation<StartStreamResponse, ServerError, string>({
+  return useMutation<StartStreamResponse, AxiosServerError, string>({
     mutationFn: (rtspUrl: string) => startStream(rtspUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["paths"] }),
     onError: (error) => {
-      alert("Error starting stream:" + error.error);
+      const errorMsg = error.response?.data.error || error.message;
+      console.log("Error starting stream:", errorMsg);
+      alert(errorMsg);
     },
   });
 }
