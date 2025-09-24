@@ -4,7 +4,7 @@ import {
   StartStreamResponse,
   StreamListResponse,
 } from "@/lib/utils";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: `/`,
