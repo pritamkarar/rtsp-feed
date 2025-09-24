@@ -2,10 +2,10 @@ services:
   mediamtx:
     image: bluenviron/mediamtx:latest
     container_name: mediamtx
-    # ports:
-      # - "8888:8888" # HLS (optional, for external access)
-      # - "8889:8889" # WebRTC (optional)
-      # - "8554:8554" # RTSP (optional)
+    ports:
+      - "8888:8888" # HLS (optional, for external access)
+      - "8889:8889" # WebRTC (optional)
+      - "8554:8554" # RTSP (optional)
       # - "9997:9997" # REST API (optional)
     volumes:
       - ./mediamtx.yml:/mediamtx.yml:ro
@@ -20,9 +20,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MEDIAMTX_HLS_BASE: http://mediamtx:8888
-      MEDIAMTX_WEBRTC_BASE: http://mediamtx:8889
+      # internal (for Next.js backend → MediaMTX)
       MEDIAMTX_CONTROL_BASE: http://mediamtx:9997
+
+      # public (for browser → HLS/WebRTC)
+      MEDIAMTX_HLS_BASE: http://localhost:8888
+      MEDIAMTX_WEBRTC_BASE: http://localhost:8889
     depends_on:
       - mediamtx
     restart: always
